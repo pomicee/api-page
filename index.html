@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        :root {
+            --bg-primary: #1a1d2d;
+            --bg-secondary: #242839;
+            --bg-tertiary: #2c324a;
+            --text-primary: #e2e8f0;
+            --text-secondary: #a9b1c5;
+            --accent-primary: #9d8cd4;
+            --accent-secondary: #64b5cd;
+            --header-bg: #242839;
+            --border-color: #3a4055;
+            --code-bg: #1a1d2d;
+            --method-get: #6fcf97;
+            --method-post: #6fcf97;
+            --method-put: #f0c97a;
+            --method-delete: #e49393;
+            --button-hover: #b4a6e0;
+            --table-header: #2c324a;
+            --font-size-base: 16px;
+            --code-copy-button: #3a4055;
+        }
+
+        [data-theme="light"] {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #eef1f6;
+            --text-primary: #3a4151;
+            --text-secondary: #6f7787;
+            --accent-primary: #8a7cc2;
+            --accent-secondary: #5ba6c9;
+            --header-bg: #8a7cc2;
+            --border-color: #e3e7f0;
+            --code-bg: #eef1f6;
+            --method-get: #5eb986;
+            --method-post: #5eb986;
+            --method-put: #e2bb6a;
+            --method-delete: #d87e7e;
+            --button-hover: #a196cf;
+            --table-header: #eef1f6;
+            --code-copy-button: #c5cad8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-primary);
+            transition: all 0.3s ease;
+            font-size: var(--font-size-base);
+        }
+        
+        [data-font-size="small"] {
+            --font-size-base: 14px;
+        }
+        [data-font-size="medium"] {
+            --font-size-base: 16px;
+        }
+        [data-font-size="large"] {
+            --font-size-base: 18px;
+        }
+        
+        [data-density="compact"] .container {
+            padding: 15px;
+        }
+        [data-density="compact"] .endpoint {
+            padding: 10px;
+            margin: 10px 0;
+        }
+        [data-density="compact"] th, 
+        [data-density="compact"] td {
+            padding: 8px;
+        }
+        
+        [data-density="comfortable"] .container {
+            padding: 30px;
+        }
+        [data-density="comfortable"] .endpoint {
+            padding: 15px;
+            margin: 20px 0;
+        }
+        [data-density="comfortable"] th, 
+        [data-density="comfortable"] td {
+            padding: 12px;
+        }
+        
+        [data-density="spacious"] .container {
+            padding: 40px;
+        }
+        [data-density="spacious"] .endpoint {
+            padding: 20px;
+            margin: 30px 0;
+        }
+        [data-density="spacious"] th, 
+        [data-density="spacious"] td {
+            padding: 16px;
+        }
+        
+        header {
+            background-color: var(--header-bg);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .title-container {
+            flex: 1;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .version {
+            font-size: 1em;
+            opacity: 0.8;
+        }
+        .container {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: var(--accent-primary);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: var(--accent-secondary);
+            margin-top: 25px;
+        }
+        .endpoint {
+            background-color: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-primary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .method {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            color: white;
+            margin-right: 10px;
+        }
+        .get {
+            background-color: var(--method-get);
+        }
+        .post {
+            background-color: var(--method-post);
+        }
+        .put {
+            background-color: var(--method-put);
+        }
+        .delete {
+            background-color: var(--method-delete);
+        }
+        .url-path {
+            font-family: monospace;
+            font-size: 1.1em;
+            color: var(--text-primary);
+        }
+        .pre-container {
+            position: relative;
+        }
+        pre {
+            background-color: var(--code-bg);
+            color: var(--text-primary);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+        }
+        .copy-btn {
+            position: absolute;
+            top: 25px;
+            right: 10px;
+            background-color: var(--code-copy-button);
+            color: var(--text-primary);
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+            display: none;
+        }
+        .pre-container:hover .copy-btn {
+            opacity: 1;
+        }
+        .copy-btn:hover {
+            opacity: 1;
+            background-color: var(--accent-primary);
+        }
+        body[data-show-copy="true"] .copy-btn {
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: var(--bg-tertiary);
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: var(--table-header);
+        }
+        .parameter-name {
+            font-family: monospace;
+            font-weight: bold;
+            color: var(--accent-primary);
+        }
+        .required {
+            color: #cf6679;
+            font-weight: bold;
+        }
+        .optional {
+            color: var(--text-secondary);
+        }
+        .description {
+            color: var(--text-primary);
+        }
+        .try-btn {
+            background-color: var(--accent-primary);
+            color: var(--bg-primary);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .try-btn:hover {
+            background-color: var(--button-hover);
+        }
+        .response-section {
+            display: none;
+            margin-top: 20px;
+        }
+        body[data-auto-expand="true"] .response-section {
+            display: block;
+        }
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            border-top: 1px solid var(--border-color);
+        }
+        a {
+            color: var(--accent-secondary);
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        code {
+            background-color: var(--border-color);
+            color: var(--accent-secondary);
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        .settings-icon {
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+            background: none;
+            border: none;
+            padding: 5px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+            margin-left: 15px;
+        }
+        
+        .settings-icon:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .settings-menu {
+            position: absolute;
+            top: 65px;
+            right: 20px;
+            background-color: var(--bg-secondary);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            width: 280px;
+            z-index: 1000;
+            display: none;
+            padding: 10px 0;
+            border: 1px solid var(--border-color);
+        }
+        
+        .settings-menu.show {
+            display: block;
+        }
+        
+        .settings-menu h3 {
+            margin: 0;
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 16px;
+        }
+        
+        .settings-section {
+            padding: 10px 15px;
+        }
+        
+        .settings-group {
+            border-top: 1px solid var(--border-color);
+            margin-top: 10px;
+            padding-top: 10px;
+        }
+        
+        .settings-group:first-child {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
+        }
+        
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .settings-option:last-child {
+            margin-bottom: 0;
+        }
+        
+        .settings-label {
+            font-weight: 500;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #484848;
+            transition: .3s;
+            border-radius: 22px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--accent-primary);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+
+        .settings-select {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 6px 8px;
+            border-radius: 4px;
+            width: 120px;
+            font-family: inherit;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+            .settings-menu {
+                width: 90%;
+                right: 5%;
+                left: 5%;
+            }
+            header {
+                flex-wrap: wrap;
+            }
+            .settings-container {
+                margin-top: 15px;
+                display: flex;
+                justify-content: flex-end;
+                width: 100%;
+            }
+            .title-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark" data-font-size="medium" data-density="comfortable" data-show-copy="true" data-auto-expand="false">
+    <header>
+        <div class="title-container">
+            <h1>API Documentation</h1>
+            <p class="version">Version 1.0.0</p>
+        </div>
+        <div class="settings-container">
+            <button id="settingsButton" class="settings-icon" aria-label="Settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+            </button>
+            <div id="settingsMenu" class="settings-menu">
+                <h3 id="settingsTitle">Settings</h3>
+                <div class="settings-section">
+                    <div class="settings-group">
+                        <div class="settings-option">
+                            <span class="settings-label" id="darkModeLabel">Dark Mode</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="themeToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <div class="settings-option">
+                            <span class="settings-label">Font Size</span>
+                            <select id="fontSizeSelect" class="settings-select">
+                                <option value="small">Small</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <div class="settings-option">
+                            <span class="settings-label">Layout Density</span>
+                            <select id="densitySelect" class="settings-select">
+                                <option value="compact">Compact</option>
+                                <option value="comfortable" selected>Comfortable</option>
+                                <option value="spacious">Spacious</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <div class="settings-option">
+                            <span class="settings-label">Show Copy Buttons</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="copyButtonToggle" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <div class="settings-option">
+                            <span class="settings-label">Auto-expand Examples</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="autoExpandToggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>Welcome to the API documentation. This API provides various endpoints for monitoring and status checking of services.</p>
+            <p>Base URL: <code>https://api.example.xd</code></p>
+            
+            <h3>Authentication</h3>
+            <p>API authentication may be required depending on the endpoint. Please contact your administrator for details.</p>
+        </section>
+        
+        <section id="health-endpoints">
+            <h2>Health Check Endpoints</h2>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url-path">/api/health</span>
+                <p>Returns the health status of the MongoDB service.</p>
+                
+                <h3>Example Request</h3>
+                <div class="pre-container">
+                    <pre>curl -X GET 'https://api.example.xd/api/health'</pre>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                </div>
+                
+                <button class="try-btn" onclick="toggleResponse('health-get-response')">View Example Response</button>
+                <div id="health-get-response" class="response-section">
+                    <h3>Example Response</h3>
+                    <div class="pre-container">
+                        <pre>{
+  "status": "MongoDB is online!",
+  "lastChecked": "Mar 01, 2025, 06:17:51 PM",
+  "connectionTime": "2025-03-01T23:17:51.958Z",
+  "retryCount": 0
+}</pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url-path">/api/redishealth</span>
+                <p>Returns the health status of the Redis service.</p>
+                
+                <h3>Example Request</h3>
+                <div class="pre-container">
+                    <pre>curl -X GET 'https://api.example.xd/api/redishealth'</pre>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                </div>
+                
+                <button class="try-btn" onclick="toggleResponse('redishealth-get-response')">View Example Response</button>
+                <div id="redishealth-get-response" class="response-section">
+                    <h3>Example Response</h3>
+                    <div class="pre-container">
+                        <pre>{
+  "status": "Redis is online!",
+  "lastChecked": "Mar 01, 2025, 06:17:29 PM",
+  "connectionTime": "2025-03-01T23:17:29.571Z",
+  "retryCount": 0
+}</pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="service-endpoints">
+            <h2>Service Handler Endpoints</h2>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url-path">/api/sh1</span>
+                <p>Service handler 1 endpoint for retrieving shard information.</p>
+                
+                <h3>Example Request</h3>
+                <div class="pre-container">
+                    <pre>curl -X GET 'https://api.example.xds/api/sh1'</pre>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                </div>
+                
+                <button class="try-btn" onclick="toggleResponse('sh1-get-response')">View Example Response</button>
+                <div id="sh1-get-response" class="response-section">
+                    <h3>Example Response</h3>
+                    <div class="pre-container">
+                        <pre>{
+  "shardId": "0",
+  "guildCount": 7,
+  "memberCount": 1367,
+  "ping": 84,
+  "uptime": 2822951,
+  "timestamp": "2025-03-01T23:17:38.255Z"
+}</pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="endpoint">
+                <span class="method get">GET</span>
+                <span class="url-path">/api/sh2</span>
+                <p>Service handler 2 endpoint for retrieving shard information.</p>
+                
+                <h3>Example Request</h3>
+                <div class="pre-container">
+                    <pre>curl -X GET 'https://api.example.xd/api/sh2'</pre>
+                    <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                </div>
+                
+                <button class="try-btn" onclick="toggleResponse('sh2-get-response')">View Example Response</button>
+                <div id="sh2-get-response" class="response-section">
+                    <h3>Example Response</h3>
+                    <div class="pre-container">
+                        <pre>{
+  "shardId": "1",
+  "guildCount": 2,
+  "memberCount": 16,
+  "ping": 89,
+  "uptime": 2823074,
+  "timestamp": "2025-03-01T23:17:46.053Z"
+}</pre>
+                        <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="response-fields">
+            <h2>Response Fields Explanation</h2>
+            
+            <h3>Health Check Response Fields</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="parameter-name">status</td>
+                        <td>String</td>
+                        <td>Status message indicating if the service is online</td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">lastChecked</td>
+                        <td>String</td>
+                        <td>Human-readable timestamp of when the service was last checked</td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">connectionTime</td>
+                        <td>String (ISO 8601)</td>
+                        <td>ISO formatted timestamp of the connection time</td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">retryCount</td>
+                        <td>Integer</td>
+                        <td>Number of connection retry attempts</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Shard Handler Response Fields</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="parameter-name">shardId</td>
+                        <td>String</td>
+                        <td>Identifier for the shard</td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">guildCount</td>
+                        <td>Integer</td>
+                        <td>Number of guilds managed by this shard</td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">memberCount</td>
+                        <td>Integer</td>
+                        <td>Number of members across all guilds in this shard</td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">ping</td>
+                        <td>Integer</td>
+                        <td>Latency measurement in milliseconds</td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">uptime</td>
+                        <td>Integer</td>
+                        <td>Uptime in milliseconds</td>
+                    </tr>
+                    <tr>
+                        <td class="parameter-name">timestamp</td>
+                        <td>String (ISO 8601)</td>
+                        <td>ISO formatted timestamp of when the data was collected</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        
+        <section id="error-codes">
+            <h2>Error Codes</h2>
+            <p>The API uses the following error codes:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Status Code</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>200</td>
+                        <td>OK - The request was successful.</td>
+                    </tr>
+                    <tr>
+                        <td>400</td>
+                        <td>Bad Request - The request was invalid.</td>
+                    </tr>
+                    <tr>
+                        <td>404</td>
+                        <td>Not Found - The endpoint does not exist.</td>
+                    </tr>
+                    <tr>
+                        <td>500</td>
+                        <td>Internal Server Error - An error occurred on the server.</td>
+                    </tr>
+                    <tr>
+                        <td>503</td>
+                        <td>Service Unavailable - The service is not available.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Error Response Format</h3>
+            <div class="pre-container">
+                <pre>{
+  "error": "Error message describing the issue",
+  "status": 500,
+  "timestamp": "2025-03-01T23:17:51.958Z"
+}</pre>
+                <button class="copy-btn" onclick="copyToClipboard(this)">Copy</button>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 example name API Documentation. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        function copyToClipboard(button) {
+            const pre = button.previousElementSibling;
+            const textToCopy = pre.textContent;
+            
+            navigator.clipboard.writeText(textToCopy).then(function() {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                setTimeout(function() {
+                    button.textContent = originalText;
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                button.textContent = 'Failed to copy';
+                setTimeout(function() {
+                    button.textContent = 'Copy';
+                }, 2000);
+            });
+        }
+
+        function toggleResponse(id) {
+            const element = document.getElementById(id);
+            if (element.style.display === 'block') {
+                element.style.display = 'none';
+            } else {
+                element.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const settingsButton = document.getElementById('settingsButton');
+            const settingsMenu = document.getElementById('settingsMenu');
+            const themeToggle = document.getElementById('themeToggle');
+            const fontSizeSelect = document.getElementById('fontSizeSelect');
+            const densitySelect = document.getElementById('densitySelect');
+            const copyButtonToggle = document.getElementById('copyButtonToggle');
+            const autoExpandToggle = document.getElementById('autoExpandToggle');
+            
+            settingsButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                settingsMenu.classList.toggle('show');
+            });
+            
+            document.addEventListener('click', function(event) {
+                if (!settingsButton.contains(event.target) && !settingsMenu.contains(event.target)) {
+                    settingsMenu.classList.remove('show');
+                }
+            });
+            
+            settingsMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            
+            loadPreferences();
+            
+            themeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    document.body.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+            
+            fontSizeSelect.addEventListener('change', function() {
+                document.body.setAttribute('data-font-size', this.value);
+                localStorage.setItem('fontSize', this.value);
+            });
+            
+            densitySelect.addEventListener('change', function() {
+                document.body.setAttribute('data-density', this.value);
+                localStorage.setItem('density', this.value);
+            });
+            
+            copyButtonToggle.addEventListener('change', function() {
+                document.body.setAttribute('data-show-copy', this.checked);
+                localStorage.setItem('showCopy', this.checked);
+            });
+            
+            autoExpandToggle.addEventListener('change', function() {
+                document.body.setAttribute('data-auto-expand', this.checked);
+                localStorage.setItem('autoExpand', this.checked);
+            });
+            
+            function loadPreferences() {
+                const theme = localStorage.getItem('theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+                document.body.setAttribute('data-theme', theme);
+                themeToggle.checked = theme === 'dark';
+                
+                const fontSize = localStorage.getItem('fontSize') || 'medium';
+                document.body.setAttribute('data-font-size', fontSize);
+                fontSizeSelect.value = fontSize;
+                
+                const density = localStorage.getItem('density') || 'comfortable';
+                document.body.setAttribute('data-density', density);
+                densitySelect.value = density;
+                
+                const showCopy = localStorage.getItem('showCopy') !== 'false';
+                document.body.setAttribute('data-show-copy', showCopy);
+                copyButtonToggle.checked = showCopy;
+                
+                const autoExpand = localStorage.getItem('autoExpand') === 'true';
+                document.body.setAttribute('data-auto-expand', autoExpand);
+                autoExpandToggle.checked = autoExpand;
+            }
+        });
+    </script>
+</body>
+</html>
